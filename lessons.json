@@ -1,41 +1,126 @@
 [
-    {
-        "id": 1,
-        "title": "Hello Python",
-        "description": "Write a Python program that prints 'Hello, World!' to the console.",
-        "starter_code": "print('')",
-        "hint": "Use the print function with the exact string 'Hello, World!'.",
-        "tests": [
-            {
-                "input": "",
-                "expected_output": "Hello, World!"
-            }
-        ]
-    },
-    {
-        "id": 2,
-        "title": "Simple Math",
-        "description": "Write a Python program that prints the sum of 5 and 7.",
-        "starter_code": "print()",
-        "hint": "Add the numbers directly inside the print function.",
-        "tests": [
-            {
-                "input": "",
-                "expected_output": "12"
-            }
-        ]
-    },
-    {
-        "id": 3,
-        "title": "Variables",
-        "description": "Create a variable x with value 10, then print it.",
-        "starter_code": "# Your code here",
-        "hint": "Assign 10 to x, then print(x).",
-        "tests": [
-            {
-                "input": "",
-                "expected_output": "10"
-            }
-        ]
-    }
+  {
+    "id": "vars1",
+    "title": "Variables — Store numbers",
+    "goal": "Learn to store values in variables and print them.",
+    "starter": "x = 5\ny = 7\nprint(x, y)",
+    "tests": "def check(output):\n    return '5' in output and '7' in output",
+    "hints": [
+      "Assign a value to variable x.",
+      "Assign a value to variable y.",
+      "Use print to display both x and y."
+    ],
+    "xp_reward": 20
+  },
+  {
+    "id": "vars2",
+    "title": "Sum two numbers",
+    "goal": "Learn to add variables together.",
+    "starter": "a = 3\nb = 4\n# Add them and print the result\n",
+    "tests": "def check(output):\n    return '7' in output.strip()",
+    "hints": [
+      "Use the + operator to add a and b.",
+      "Wrap your sum in print(...)."
+    ],
+    "xp_reward": 30
+  },
+  {
+    "id": "strings1",
+    "title": "Hello, name!",
+    "goal": "Use strings and variables together.",
+    "starter": "name = 'Alice'\n# Print Hello, Alice!",
+    "tests": "def check(output):\n    return output.strip() == 'Hello, Alice!'",
+    "hints": [
+      "Remember to include a comma or space between Hello and the name.",
+      "You can combine strings using + or with commas in print."
+    ],
+    "xp_reward": 30
+  },
+  {
+    "id": "input1",
+    "title": "Ask the user’s name",
+    "goal": "Use input() to get data from the user.",
+    "starter": "# Ask the user for their name and say Hello!\nname = input('What is your name? ')\n",
+    "tests": "def check(output):\n    # Simulate input: user enters Bob\n    import builtins\n    builtins.input = lambda _: 'Bob'\n    import io, sys\n    s = io.StringIO(); sys.stdout = s\n    exec(_user)\n    sys.stdout = sys.__stdout__\n    return 'Bob' in s.getvalue() and 'Hello' in s.getvalue()",
+    "hints": [
+      "Use input() to read the user's name.",
+      "Print a greeting with their name."
+    ],
+    "xp_reward": 40
+  },
+  {
+    "id": "if1",
+    "title": "Check positive or negative",
+    "goal": "Use if statements to branch logic.",
+    "starter": "num = -3\n# If num > 0 print Positive else print Negative",
+    "tests": "def check(output):\n    return ('Positive' in output) or ('Negative' in output)",
+    "hints": [
+      "Use if num > 0:",
+      "Use else: for the other case."
+    ],
+    "xp_reward": 40
+  },
+  {
+    "id": "loop1",
+    "title": "Count from 1 to 5",
+    "goal": "Use a for loop to repeat code.",
+    "starter": "# Print numbers 1 to 5\n",
+    "tests": "def check(output):\n    nums = output.strip().split() \n    return nums == ['1','2','3','4','5']",
+    "hints": [
+      "Use range(1, 6) for numbers 1 to 5.",
+      "Print each number inside the loop."
+    ],
+    "xp_reward": 50
+  },
+  {
+    "id": "loop2",
+    "title": "Sum numbers 1 to 10",
+    "goal": "Use a loop and an accumulator variable.",
+    "starter": "total = 0\n# Use a loop to add numbers 1 to 10 to total\n",
+    "tests": "def check(output):\n    return '55' in output.strip()",
+    "hints": [
+      "Start total at 0.",
+      "Use range(1, 11) to include 10.",
+      "Add each number to total."
+    ],
+    "xp_reward": 60
+  },
+  {
+    "id": "func1",
+    "title": "Make a greeter function",
+    "goal": "Write and call a function with a parameter.",
+    "starter": "def greet(name):\n    # Print Hello, <name>!\n\n# Call the function for 'Eve'\n",
+    "tests": "def check(output):\n    return 'Hello, Eve!' in output",
+    "hints": [
+      "Define greet(name) with def.",
+      "Inside, print a greeting using the name parameter.",
+      "Call greet('Eve')."
+    ],
+    "xp_reward": 70
+  },
+  {
+    "id": "list1",
+    "title": "List and loop",
+    "goal": "Store items in a list and loop through them.",
+    "starter": "fruits = ['apple', 'banana', 'cherry']\n# Loop and print each fruit",
+    "tests": "def check(output):\n    out = output.lower()\n    return 'apple' in out and 'banana' in out and 'cherry' in out",
+    "hints": [
+      "Use for fruit in fruits:",
+      "Print fruit inside the loop."
+    ],
+    "xp_reward": 70
+  },
+  {
+    "id": "proj1",
+    "title": "Mini Project — Number guessing game",
+    "goal": "Put together variables, loops, conditionals, and input.",
+    "starter": "import random\nsecret = random.randint(1, 5)\n# Ask user to guess until correct\n",
+    "tests": "def check(output):\n    # Cannot fully test random easily — just check output contains 'Correct' or 'Wrong'\n    return ('Correct' in output) or ('Wrong' in output)",
+    "hints": [
+      "Use a while loop until the guess equals secret.",
+      "Convert input to int before comparing.",
+      "Give feedback 'Wrong' or 'Correct'."
+    ],
+    "xp_reward": 100
+  }
 ]
