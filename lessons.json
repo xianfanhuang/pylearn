@@ -1,0 +1,41 @@
+[
+    {
+        "id": 1,
+        "title": "Hello Python",
+        "description": "Write a Python program that prints 'Hello, World!' to the console.",
+        "starter_code": "print('')",
+        "hint": "Use the print function with the exact string 'Hello, World!'.",
+        "tests": [
+            {
+                "input": "",
+                "expected_output": "Hello, World!"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "title": "Simple Math",
+        "description": "Write a Python program that prints the sum of 5 and 7.",
+        "starter_code": "print()",
+        "hint": "Add the numbers directly inside the print function.",
+        "tests": [
+            {
+                "input": "",
+                "expected_output": "12"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "title": "Variables",
+        "description": "Create a variable x with value 10, then print it.",
+        "starter_code": "# Your code here",
+        "hint": "Assign 10 to x, then print(x).",
+        "tests": [
+            {
+                "input": "",
+                "expected_output": "10"
+            }
+        ]
+    }
+]
