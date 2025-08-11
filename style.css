@@ -1,100 +1,268 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    display: flex;
-    height: 100vh;
-    background-color: #f5f5f5;
+/* General Styles & New Color Palette */
+:root {
+    --primary-color: #4A90E2;
+    --primary-hover: #357ABD;
+    --background-color: #F7F9FC;
+    --sidebar-bg: #FFFFFF;
+    --text-color: #333333;
+    --light-text-color: #777777;
+    --border-color: #E0E7EE;
+    --card-bg: #FFFFFF;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --font-family: 'Noto Sans SC', 'Poppins', sans-serif;
+    --monospace-family: 'Fira Code', 'Source Code Pro', monospace; /* More modern mono font */
 }
 
+body {
+    margin: 0;
+    font-family: var(--font-family);
+    display: flex;
+    height: 100vh;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* Sidebar Styles */
 #sidebar {
-    width: 250px;
-    background-color: #2c3e50;
-    color: white;
-    padding: 10px;
+    width: 280px;
+    background-color: var(--sidebar-bg);
+    padding: 20px;
     overflow-y: auto;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+#user-bar {
+    background: linear-gradient(135deg, var(--primary-color), #5aa7ff);
+    color: white;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+    box-shadow: var(--shadow);
 }
 
 #sidebar h2 {
-    text-align: center;
+    text-align: left;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    padding-bottom: 5px;
+    border-bottom: 2px solid var(--primary-color);
 }
 
-#lessonList {
+#lessons-list {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
-#lessonList li {
-    padding: 8px;
-    border-bottom: 1px solid #34495e;
+#lessons-list li {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
     cursor: pointer;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    transition: all 0.2s ease-in-out;
+    font-weight: 600;
 }
 
-#lessonList li:hover {
-    background-color: #34495e;
+#lessons-list li:hover {
+    background-color: #eef2f7;
+    color: var(--primary-hover);
 }
 
+#lessons-list li.active {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: var(--shadow);
+    transform: scale(1.02);
+}
+
+#lessons-list li.completed {
+    color: var(--light-text-color);
+    text-decoration: line-through;
+}
+#lessons-list li.completed::before {
+    content: '✔ ';
+    color: #28a745;
+}
+
+
+/* Main Content Styles */
 #main {
     flex: 1;
-    padding: 20px;
+    padding: 30px;
     overflow-y: auto;
 }
 
-#lessonTitle {
+#lesson-title {
     margin-top: 0;
+    font-size: 2.5em;
+    font-weight: 700;
 }
 
-#lessonDescription {
-    background: #ecf0f1;
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 14px;
+#lesson-goal {
+    background: #eef2f7;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--primary-color);
 }
 
-#codeEditor {
+#code {
     width: 100%;
-    height: 200px;
+    height: 250px;
     margin-top: 10px;
-    font-family: monospace;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    font-family: var(--monospace-family);
+    font-size: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    resize: vertical;
 }
 
 .buttons {
-    margin-top: 10px;
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
 }
 
 .buttons button {
-    padding: 8px 12px;
-    margin-right: 8px;
+    padding: 10px 20px;
     border: none;
-    border-radius: 4px;
-    background-color: #3498db;
+    border-radius: 8px;
+    background-color: var(--primary-color);
     color: white;
     cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+    box-shadow: var(--shadow);
 }
 
-.buttons button:hover {
-    background-color: #2980b9;
+.buttons button:hover:not(:disabled) {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+.buttons button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
 }
 
-#outputContainer, #visualizerContainer {
+
+/* Output, Trace, AST Containers */
+#outputContainer, #traceContainer, #astContainer {
+    margin-top: 25px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+h2 {
+    margin-top: 0;
+}
+
+pre {
+    background: #2d2d2d;
+    color: #f2f2f2;
+    padding: 15px;
+    border-radius: 8px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: var(--monospace-family);
+}
+
+#trace {
+    background: #2d2d2d;
+    color: #f2f2f2;
+    padding: 15px;
+    border-radius: 8px;
+    font-family: var(--monospace-family);
+    min-height: 100px;
+}
+
+/* Achievements Styles */
+#achievements-section {
+    margin-top: 10px;
+}
+
+#badges-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.badge {
+    font-size: 2em;
+    color: #d0d0d0; /* Default color for locked badges */
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease-in-out;
+}
+
+.badge.unlocked {
+    color: #ffc107; /* Gold color for unlocked badges */
+    text-shadow: 0 0 5px #ffc107;
+}
+
+.badge:hover {
+    transform: scale(1.2);
+}
+
+/* Tooltip for badge title */
+.badge .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.5em; /* Adjust font size for tooltip */
+}
+
+.badge:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Progress Bar Styles */
+#progress-section {
     margin-top: 20px;
 }
 
-#output, #codeView, #variablesView {
-    background: #fff;
-    padding: 10px;
-    border: 1px solid #ccc;
-    min-height: 100px;
-    border-radius: 4px;
+.progress-bar-container {
+    width: 100%;
+    background-color: #e0e7ee;
+    border-radius: 10px;
+    height: 20px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
 }
 
-#codeView {
-    white-space: pre-wrap;
-    font-family: monospace;
-}
-
-.highlight {
-    background-color: yellow;
+#progress-bar {
+    width: 0%; /* Initial width */
+    height: 100%;
+    background: linear-gradient(135deg, #5aa7ff, var(--primary-color));
+    border-radius: 10px;
+    transition: width 0.5s ease-in-out;
+    text-align: center;
+    color: white;
+    font-weight: 600;
+    line-height: 20px;
+    font-size: 0.8em;
 }

@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Python Learning App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -10,6 +14,19 @@
         <div id="user-bar">
             <span id="level">Level: 1</span> | <span id="xp">XP: 0</span>
         </div>
+
+        <div id="achievements-section">
+            <h2>Achievements</h2>
+            <div id="badges-container"></div>
+        </div>
+
+        <div id="progress-section">
+            <h2>Your Progress</h2>
+            <div class="progress-bar-container">
+                <div id="progress-bar"></div>
+            </div>
+        </div>
+
         <h2>Lessons</h2>
         <ul id="lessons-list"></ul>
     </div>
@@ -43,6 +60,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
-    <script type="module" src="main.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
