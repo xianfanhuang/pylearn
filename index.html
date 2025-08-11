@@ -1,178 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Python Learning App — Run Code + Hints</title>
-<style>
-  body { font-family: Arial, sans-serif; margin: 0; background: #f9f9f9; }
-  header { background: #4CAF50; padding: 15px; color: white; font-size: 1.4em; }
-  .container { display: flex; height: 90vh; }
-  .lesson-list {
-    width: 250px; background: white; border-right: 1px solid #ccc;
-    overflow-y: auto; margin: 0; padding: 0; list-style: none;
-  }
-  .lesson-list li {
-    padding: 12px 15px; cursor: pointer; border-bottom: 1px solid #eee;
-    user-select: none;
-  }
-  .lesson-list li:hover { background: #f0f0f0; }
-  .lesson-list li.active { background: #d4edda; font-weight: bold; }
-  .lesson-content {
-    flex: 1; padding: 20px; display: flex; flex-direction: column;
-  }
-  #code-editor {
-    flex: 1; font-family: monospace; font-size: 14px;
-    border: 1px solid #ccc; border-radius: 4px;
-    padding: 10px; resize: none; margin-top: 10px;
-  }
-  #output {
-    background: #222; color: #0f0; padding: 10px;
-    margin-top: 10px; min-height: 100px; overflow-y: auto;
-    border-radius: 4px; font-family: monospace;
-  }
-  button {
-    margin-top: 10px; padding: 10px 20px; font-size: 1em;
-    cursor: pointer; border-radius: 4px; border: none;
-    background: #4CAF50; color: white;
-  }
-  button:disabled { background: #aaa; cursor: not-allowed; }
-  #hint-display {
-    margin-top: 10px; font-style: italic; color: #555; min-height: 2em;
-  }
-</style>
+    <meta charset="UTF-8">
+    <title>Python Learning App</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="sidebar">
+        <div id="user-bar">
+            <span id="level">Level: 1</span> | <span id="xp">XP: 0</span>
+        </div>
+        <h2>Lessons</h2>
+        <ul id="lessons-list"></ul>
+    </div>
 
-<header>🐍 Python Learning App</header>
-<div class="container">
-  <ul class="lesson-list" id="lessonList"></ul>
+    <div id="main">
+        <h1 id="lesson-title">Select a Lesson</h1>
+        <p id="lesson-goal"></p>
+        <textarea id="code" placeholder="Write your Python code here..."></textarea>
 
-  <div class="lesson-content">
-    <h2 id="lesson-title">Select a lesson</h2>
-    <div id="lesson-description">Lesson content will appear here.</div>
+        <div class="buttons">
+            <button id="run-btn">Run</button>
+            <button id="step-btn">Step</button>
+            <button id="test-btn">Test</button>
+            <button id="hint-btn">Hint</button>
+        </div>
 
-    <textarea id="code-editor" spellcheck="false" placeholder="# Write your Python code here..."></textarea>
-    <button id="run-btn" disabled>▶ Run Code</button>
-    <button id="hint-btn" disabled>💡 Show Hint</button>
+        <div id="outputContainer">
+            <h2>Output</h2>
+            <pre id="output"></pre>
+        </div>
 
-    <div id="hint-display"></div>
-    <pre id="output"></pre>
-  </div>
-</div>
+        <div id="traceContainer">
+            <h2>Trace</h2>
+            <div id="trace"></div>
+        </div>
 
-<script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
-<script>
-  const lessons = [
-    {
-      id: 1,
-      title: "Lesson 1: Hello, Python!",
-      description: "Print <code>Hello, Python!</code>",
-      starter: "print('Hello, Python!')",
-      hints: [
-        "Use the print() function to display text.",
-        "Make sure your text is inside quotes."
-      ]
-    },
-    {
-      id: 2,
-      title: "Lesson 2: Variables",
-      description: "Create variable x with value 5 and print it.",
-      starter: "x = 5\nprint(x)",
-      hints: [
-        "Use = to assign values to variables.",
-        "Use print(x) to display the value."
-      ]
-    },
-    {
-      id: 3,
-      title: "Lesson 3: Control Flow",
-      description: "Print whether x is positive or not.",
-      starter: "x = 10\nif x > 0:\n    print('Positive')\nelse:\n    print('Non-positive')",
-      hints: [
-        "Use if statements to check conditions.",
-        "Remember the else clause for the alternative."
-      ]
-    }
-  ];
+        <div id="astContainer">
+            <h2>AST</h2>
+            <pre id="ast"></pre>
+        </div>
+    </div>
 
-  const lessonListEl = document.getElementById("lessonList");
-  const lessonTitleEl = document.getElementById("lesson-title");
-  const lessonDescriptionEl = document.getElementById("lesson-description");
-  const codeEditor = document.getElementById("code-editor");
-  const runBtn = document.getElementById("run-btn");
-  const hintBtn = document.getElementById("hint-btn");
-  const hintDisplay = document.getElementById("hint-display");
-  const outputEl = document.getElementById("output");
-
-  let pyodide = null;
-  let currentLesson = null;
-  let currentHintIndex = 0;
-
-  async function initPyodide() {
-    outputEl.textContent = "Loading Python runtime...";
-    pyodide = await loadPyodide();
-    outputEl.textContent = "Python runtime loaded. Select a lesson.";
-    runBtn.disabled = false;
-  }
-
-  function renderLessonList() {
-    lessonListEl.innerHTML = "";
-    lessons.forEach((lesson, idx) => {
-      const li = document.createElement("li");
-      li.textContent = lesson.title;
-      li.addEventListener("click", () => {
-        currentLesson = lesson;
-        setActiveLesson(idx);
-        loadLesson(lesson);
-      });
-      lessonListEl.appendChild(li);
-    });
-  }
-
-  function setActiveLesson(activeIndex) {
-    [...lessonListEl.children].forEach((li, idx) => {
-      li.classList.toggle("active", idx === activeIndex);
-    });
-  }
-
-  function loadLesson(lesson) {
-    lessonTitleEl.innerHTML = lesson.title;
-    lessonDescriptionEl.innerHTML = lesson.description;
-    codeEditor.value = lesson.starter || "";
-    outputEl.textContent = "";
-    hintDisplay.textContent = "";
-    currentHintIndex = 0;
-    hintBtn.disabled = !(lesson.hints && lesson.hints.length > 0);
-  }
-
-  async function runCode() {
-    if (!pyodide) return;
-    outputEl.textContent = "Running...";
-    try {
-      let result = await pyodide.runPythonAsync(codeEditor.value);
-      // Pyodide returns undefined if no output, so print stdout captured by print() goes to console
-      outputEl.textContent = result === undefined ? "(No output)" : result;
-    } catch (err) {
-      outputEl.textContent = "Error:\n" + err;
-    }
-  }
-
-  hintBtn.addEventListener("click", () => {
-    if (!currentLesson || !currentLesson.hints) return;
-    if (currentHintIndex >= currentLesson.hints.length) {
-      hintDisplay.textContent = "No more hints!";
-    } else {
-      hintDisplay.textContent = currentLesson.hints[currentHintIndex];
-      currentHintIndex++;
-    }
-  });
-
-  runBtn.addEventListener("click", runCode);
-
-  // Init app
-  renderLessonList();
-  initPyodide();
-</script>
-
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+    <script type="module" src="main.js"></script>
 </body>
 </html>
