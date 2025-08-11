@@ -7,20 +7,22 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="sidebar">
-        <div id="user-bar">
+        <div id="user-bar" class="glass-card">
             <span id="level">Level: 1</span> | <span id="xp">XP: 0</span>
         </div>
 
-        <div id="achievements-section">
+        <div id="achievements-section" class="glass-card">
             <h2>Achievements</h2>
             <div id="badges-container"></div>
         </div>
 
-        <div id="progress-section">
+        <div id="progress-section" class="glass-card">
             <h2>Your Progress</h2>
             <div class="progress-bar-container">
                 <div id="progress-bar"></div>
@@ -33,7 +35,7 @@
 
     <div id="main">
         <h1 id="lesson-title">Select a Lesson</h1>
-        <p id="lesson-goal"></p>
+        <p id="lesson-goal" class="glass-card"></p>
         <textarea id="code" placeholder="Write your Python code here..."></textarea>
 
         <div class="buttons">
@@ -43,23 +45,25 @@
             <button id="hint-btn">Hint</button>
         </div>
 
-        <div id="outputContainer">
+        <div id="outputContainer" class="glass-card">
             <h2>Output</h2>
             <pre id="output"></pre>
         </div>
 
-        <div id="traceContainer">
+        <div id="traceContainer" class="glass-card">
             <h2>Trace</h2>
             <div id="trace"></div>
         </div>
 
-        <div id="astContainer">
+        <div id="astContainer" class="glass-card">
             <h2>AST</h2>
             <pre id="ast"></pre>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
